@@ -80,7 +80,7 @@ def score(board, i, j):
 
 # returns the [i,j] coordinates on the board the computer should play, basically the coords of the cell with max score (using the function score)
 def computer_choice(board):
-    return Rand(0, len(board), 20)
+    return Rand(0, len(board)-1, 20)
 
 def computerTurn(board):
     done = isBoardIsFull(board)
