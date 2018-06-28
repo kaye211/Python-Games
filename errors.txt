@@ -1,0 +1,13 @@
+  |  |  |
+  |  |  |
+Choose an X value (0-2) (0-2): 1 0
+Traceback (most recent call last):
+  File "tic_tac_toe_ver9.py", line 202, in <module>
+    start_game(new_board)
+  File "tic_tac_toe_ver9.py", line 177, in start_game
+    computerTurn(board)
+  File "tic_tac_toe_ver9.py", line 94, in computerTurn
+    if board[computerChoice[0]][computerChoice[1]] == ' ':
+IndexError: list index out of range
+
+C:\Users\Kaye\Documents>
