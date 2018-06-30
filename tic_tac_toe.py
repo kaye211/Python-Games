@@ -62,25 +62,81 @@ def humanTurn(board):
             print(e)
             traceback.print_exc()
     
- #Generates a list of random numbers for computer
-def Rand(low, high, num):
-    result = [] 
-    for i in range(num):
-        result.append(randint(low, high))
-    return result 
 
-
+import copy
 # returns a score evaluating the value of playing as the computer on cell i,j in board
 def score(board, i, j):
     # if the computer wins if he places it in cell i,j is the max score possible
+    bcopy = copy.deepcopy(board)
+    bcopy[i][j] = 'O'
+    # check
+
     # if the human wins if he places it in cell i,j is the next best score
+    bcopy = copy.deepcopy(board)
+    bcopy[i][j] = 'X'
+    # check
+    
     # next it should proportionall to how many computer chars are in the same row, column or diagonals
+
     # last should be random score less than the cases above
-    return 100
+
+    return randint(0, 1000)
+
+# A = [100, 0, 1, 5, 10 ,6 , 8 , 100, 9]
+# sum = 0
+# for a in A:
+#     sum = sum + a
+
+# max = A[0]
+# for a in A:
+#     if a >= max:
+#         max = a
+
+# max = A[0]
+# max_i = 0
+# for i in range(0, len(A)):
+#     if A[i] >= max:
+#         max = A[i]
+#         max_i = i
+
 
 # returns the [i,j] coordinates on the board the computer should play, basically the coords of the cell with max score (using the function score)
 def computer_choice(board):
-    return Rand(0, len(board)-1, 20)
+    '''
+    choses the maximun score on the board
+    '''
+    '''
+
+    scores = []
+    for i in range(len(board)):
+        sublist = []
+        for j in range(len(board[i])):
+            score_t = score(board, i, j) #function tells score for a cell i,j
+            sublist.append(score_t)
+        scores.append(sublist)
+
+    max = scores[0][0]
+    max_ij = [0,0]
+    for i in range (0, len(scores)):
+        for j in range(0, len(scores[i])):
+            if scores[i][j] == ' ':
+                if scores[i][j] > max:
+                    max = scores[i][j]
+                    max_ij = [i, j]
+    '''
+    max = -1000
+    max_ij = [0,0]
+    for i in range (0, len(board)):
+        for j in range(0, len(board[i])):
+            if board[i][j] == ' ':
+                score_t = score(board, i, j)
+                if score_t > max:
+                    max = score_t
+                    max_ij = [i, j]
+    #set max_score to 0 and max_cell to Rand
+    #go over every cell in the board, and for cell that is empty, get a score and if it more than the max score save it as the max_cell for now
+    return max_ij
+    #let computer choose an open space, then assign a score to each move, and take whichever one is open
 
 def computerTurn(board):
     done = isBoardIsFull(board)
@@ -202,7 +258,6 @@ while restart_game == 'c':
     start_game(new_board)
     restart_game = input('Enter Q to quit or C to continue: ')
 
-# computer is allowing human to play even after compter wins
 
 # display improved
 # N = 4, N = 5
