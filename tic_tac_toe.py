@@ -1,5 +1,6 @@
 from random import randint
 import traceback
+import copy
 
 """
 
@@ -24,6 +25,13 @@ def displayBoard(board):
             print(c, end=' |')
         #end of row printing
         print('')
+
+
+#    | X | O #remove | from end of line, add space and ----below,  empty space btw characters
+# -----------
+#    |   |
+# -----------
+#  X |   | O
     
 
 # implement me
@@ -63,24 +71,61 @@ def humanTurn(board):
             traceback.print_exc()
     
 
-import copy
-# returns a score evaluating the value of playing as the computer on cell i,j in board
+
+
 def score(board, i, j):
-    # if the computer wins if he places it in cell i,j is the max score possible
-    bcopy = copy.deepcopy(board)
-    bcopy[i][j] = 'O'
-    # check
+    
+    '''
+    returns a score evaluating the value of playing as the computer on cell i,j in board
+
+    '''
+    if i > len(board) or i < 0 or j > len(board[i]) or j < 0:
+        return 0
+
+    if board[i][j] != ' ':
+        return 1
+
+    # the computer wins if he places it in cell i,j is the max score possible
+    board_copy = copy.deepcopy(board)
+    board_copy[i][j] = 'O' 
+    
+    if checkBoardForWinner(board_copy) == -2:
+        return 1000
+
 
     # if the human wins if he places it in cell i,j is the next best score
-    bcopy = copy.deepcopy(board)
-    bcopy[i][j] = 'X'
-    # check
+    board_copy = copy.deepcopy(board)
+    board_copy[i][j] = 'X'
+    if checkBoardForWinner(board_copy) == -1:
+        return 900
     
-    # next it should proportionall to how many computer chars are in the same row, column or diagonals
+    count_o = 0
+    count_x = 0
+     #horizontal wins human player 
 
-    # last should be random score less than the cases above
+    row = board[i]
+    count_o += row.count('O')
+    count_x += row.count('X')
+    #vertical
+        
+    
+    column = [board[j][i] for j in range(len(board[i]))]
+    count_o += column.count('O')
+    count_x += column.count('X')
 
-    return randint(0, 1000)
+    # diagonals 
+    if i == j:
+        diag2 = [ row[i] for i, row in enumerate(board) ]
+        count_o += diag2.count('O')
+        count_x += diag2.count('X')
+
+    if i == len(board)-j-1:
+        diag = [ row[-i-1] for i,row in enumerate(board) ]
+        count_o += diag.count('O')
+        count_x += diag.count('X')
+
+
+    return count_o*20 - count_x*10 + randint(1,6)
 
 # A = [100, 0, 1, 5, 10 ,6 , 8 , 100, 9]
 # sum = 0
@@ -103,7 +148,7 @@ def score(board, i, j):
 # returns the [i,j] coordinates on the board the computer should play, basically the coords of the cell with max score (using the function score)
 def computer_choice(board):
     '''
-    choses the maximun score on the board
+    returns position that contains the maximun score on the board
     '''
     '''
 
@@ -129,10 +174,11 @@ def computer_choice(board):
     for i in range (0, len(board)):
         for j in range(0, len(board[i])):
             if board[i][j] == ' ':
-                score_t = score(board, i, j)
+                score_t = score(board, i, j) # returns value of cell
                 if score_t > max:
                     max = score_t
-                    max_ij = [i, j]
+                    max_ij = [i, j] #index that contains max score
+    #if we ret
     #set max_score to 0 and max_cell to Rand
     #go over every cell in the board, and for cell that is empty, get a score and if it more than the max score save it as the max_cell for now
     return max_ij
@@ -193,7 +239,7 @@ def checkBoardForWinner(board):
     return 0
 
 
-# return empty board of NxN
+# return empty board of NxN - 
 def clearBoard(N):
     board = [ [' ', ' ', ' ' ], 
               [' ', ' ', ' ' ],
