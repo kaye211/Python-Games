@@ -14,27 +14,15 @@ The game consists of many sets, count score using the wins
       
    
 
-
-# make it not explicit
-
 def displayBoard(board):
     for i in range(0, len(board)):
-        #start of row printing
+        
         for j in range(0, len(board[i])):
             c = board[i][j]
             print(c, end=' |')
-        #end of row printing
+       
         print('')
 
-
-#    | X | O #remove | from end of line, add space and ----below,  empty space btw characters
-# -----------
-#    |   |
-# -----------
-#  X |   | O
-    
-
-# implement me
 def isBoardIsFull(board):
     total = 0
     for row in board: 
@@ -48,7 +36,7 @@ def humanTurn(board):
     done = isBoardIsFull(board)
     N = len(board)
     while not done:
-       # if checkBoardForWinner(board) != -2: #to stop human from playing after compter wins
+      
         humanInput = input('Choose an X value (0-%d) (0-%d): ' % (N-1, N-1)) 
                 
 
@@ -79,6 +67,8 @@ def score(board, i, j):
     returns a score evaluating the value of playing as the computer on cell i,j in board
 
     '''
+
+    # make it computer_win*1000 + player_block*900
     if i > len(board) or i < 0 or j > len(board[i]) or j < 0:
         return 0
 
@@ -127,23 +117,6 @@ def score(board, i, j):
 
     return count_o*20 - count_x*10 + randint(1,6)
 
-# A = [100, 0, 1, 5, 10 ,6 , 8 , 100, 9]
-# sum = 0
-# for a in A:
-#     sum = sum + a
-
-# max = A[0]
-# for a in A:
-#     if a >= max:
-#         max = a
-
-# max = A[0]
-# max_i = 0
-# for i in range(0, len(A)):
-#     if A[i] >= max:
-#         max = A[i]
-#         max_i = i
-
 
 # returns the [i,j] coordinates on the board the computer should play, basically the coords of the cell with max score (using the function score)
 def computer_choice(board):
@@ -178,20 +151,14 @@ def computer_choice(board):
                 if score_t > max:
                     max = score_t
                     max_ij = [i, j] #index that contains max score
-    #if we ret
-    #set max_score to 0 and max_cell to Rand
-    #go over every cell in the board, and for cell that is empty, get a score and if it more than the max score save it as the max_cell for now
     return max_ij
     #let computer choose an open space, then assign a score to each move, and take whichever one is open
 
 def computerTurn(board):
     done = isBoardIsFull(board)
     while not done:
-    #while True:
 
-        #populate board with number 
         computerChoice = computer_choice(board)
-        #print (computerChoice)
         
         if board[computerChoice[0]][computerChoice[1]] == ' ':
             board[computerChoice[0]][computerChoice[1]] = 'O'
@@ -201,7 +168,7 @@ def computerTurn(board):
     
 
 
-def check_array_for_winner(diag): #diag name to row/column
+def check_array_for_winner(diag): 
     N = len(diag)
     
     if diag.count('X') == N:
@@ -269,16 +236,8 @@ def start_game(board):
             break
 
 
-
-        #    elif check_result == -1 or check_result == -2: #why doesnt this if statement work?
-        #         break
-
-
-
-        # should also check for full.. and do something with the check for winner result, use temps
         computerTurn(board)
-        #displayBoard(board)
-        #check for a winner
+      
         check_result = checkBoardForWinner(board) 
         if check_result == -1:
             displayBoard(board)
@@ -292,20 +251,16 @@ def start_game(board):
 
 
     while checkBoardForWinner(board):
-        print("Score is human: ", human_total, computer_total)
+        print("Player Score: {} | Computer Score: {} ".format( human_total, computer_total))
         break
 
 N = 3
 human_total = 0
 computer_total= 0 
-restart_game = 'c'
-while restart_game == 'c':
+restart_game = 'C'
+while restart_game == 'C':
     new_board = clearBoard(N) 
     start_game(new_board)
     restart_game = input('Enter Q to quit or C to continue: ')
 
 
-# display improved
-# N = 4, N = 5
-# computer smart
-#use scores to determine where computer plays
