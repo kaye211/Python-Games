@@ -9,8 +9,7 @@ Paper covers rock
 
 """
 improvement suggestions
-    get rid of the numbers, just use the strings directly
-    keep score of wins
+    get rid of the numbers, just use the strings directly and keep score of wins
 """
 
 def name_to_number(name):
